@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Proyecto Demo Barcamp Serverless">
+    <meta name="author" content="Carlos Camacho">
+    <title>Demo Serverless</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/scrolling-nav.css" rel="stylesheet">
+    <!-- Javascript SDK de AWS y otras librerias-->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/amazon-cognito-auth.min.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"></script>
+    <script src="js/amazon-cognito-identity.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="js/config.js"></script>
+</head>
+<body id="page-top">
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">Barcamp 2018 RD</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="#about">Acerca de</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="#services">Autentificación</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="#contact">CRUD</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<header class="bg-primary text-white">
+    <div class="container text-center">
+        <h1>Demostración sobre Serverless - Barcamp RD 2018</h1>
+        <p class="lead">Serverless utilizando los servicios AWS (Amazon Web Services)</p>
+    </div>
+</header>
+
+<section id="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h2>Acerca de la Demostración</h2>
+                <p class="lead">Estaremos demostrando como puede utilizarse una arquitectura
+                    serverless para soportar un aplicación que realiza un CRUD,
+                    las tecnologias que estaremos utilizando:</p>
+                <ul>
+                    <li>Amazon S3 - (Archivos Estaticos)</li>
+                    <li>Amazon Cognito - Autentificación de usuarios y recursos -</li>
+                    <li>Amazon Lambda - Funciones o Metodos en el servidores no administrados</li>
+                    <li>Amazon API Gateway - Puerta de entrada para ejecutar los servicios Lambda</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="services" class="bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h2>Registro de Usuario - Amazon Cognito</h2>
+                <p class="lead">....</p>
+                <form>
+                    <div class="form-group">
+                        <label for="nombreUsuario">Nombre:</label>
+                        <input type="text" id="nombreUsuario" placeholder="Nombre" pattern=".*" value="Carlos Camacho" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="emailRegistro">Email:</label>
+                        <input type="email" id="emailRegistro" placeholder="Email" pattern=".*" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefonoRegistro">Telefono:</label>
+                        <input type="tel" id="telefonoRegistro" placeholder="Telefono" pattern=".*" value="+18492206409" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="passwordRegistro">Contraseña:</label>
+                        <input type="password"  id="passwordRegistro" placeholder="Contraseña" pattern=".*" value="B@rcampRd2018" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="passwordRegistro">Confirmación:</label>
+                        <input type="password"  id="confirPasswordRegistro" placeholder="Contraseña Confirmación" value="B@rcampRd2018" pattern=".*" required>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <button id="mainbutton" class="btn btn-primary" type="button" onclick="registrarUsuarioCognito()" >Registrar</button>
+                        </div>
+                    </div>
+
+                    <p id="notificacionCreacion"></p>
+                </form>
+
+                <h2>Login del Usuario</h2>
+                <form>
+                    Usuario:
+                    <input id="usuario" name="usuario" type="text"/>
+                    Contaseña:
+                    <input id="password" name="password" type="password" value="B@rcampRd2018"/>
+                    <button type="button" onclick="loginCognito()">Acceder</button>
+                    <p id="notificacionLogin"></p>
+                </form>
+
+                <h2>Salida del Usuario</h2>
+                <form>
+                    <button type="button" id="logout" onclick="salidaCognito()">Salida</button>
+                </form>
+
+                <p id="mostrarUsuarioLogueado">
+                    ...........
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h2>Registro de Estudiante</h2>
+                <p class="lead">....</p>
+                <form>
+                    Matrícula:
+                    <input id="matricula" name="matricula" type="number"/>
+                    Nombre:
+                    <input id="nombre" name="nombre" type="text"/>
+                    <button id="agregarEstudiante" type="button">Agregar Estudiante</button>
+                </form>
+
+                <table id="tablaEstudiantes" class="display" style="width:100%">
+                    <thead>
+                    <tr>
+                        <th>Matrícula</th>
+                        <th>Nombre</th>
+                        <th>Acción</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+                <div id="app">
+                    <p>{{ message }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="py-5 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright Carlos Camacho&copy; serveless.barcamp.org.do 2018</p>
+    </div>
+    <!-- /.container -->
+</footer>
+
+    <script>
+
+        //Información del Pool de Autentificación.
+        poolData = {
+            UserPoolId : _config.cognito.userPoolId, // El pool Id
+            ClientId : _config.cognito.userPoolClientId // El Client Id
+        };
+
+        //Variables Globales.
+        var token = "";
+        var tablaEstudiante;
+
+        /**
+         * Permite registrar el usuario bajo AWS Cognito
+         * Pueden usuar el site https://10minutemail.com/ para la generación de correos
+         */
+        function registrarUsuarioCognito() {
+            //
+            var nombreUsuario = $("#nombreUsuario").val();
+            var emailRegistro = $("#emailRegistro").val(); //representa el usuario.
+            var telefonoRegistro = $("#telefonoRegistro").val(); //representa el usuario.
+            var passwordRegistro = $("#passwordRegistro").val();
+            var confirPasswordRegistro = $("#confirPasswordRegistro").val();
+
+            //validando password.
+            if(passwordRegistro!=confirPasswordRegistro){
+                var mjs = "Contraseñas no coincide, favor verificar.";
+                alert(mjs);
+                throw mjs;
+            }
+
+            //realizando el registro en Cognito.
+            console.log(""+JSON.stringify(poolData));
+            var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+
+            //variable que representa el listado de los atributos.
+            var attributeList = [];
+
+            var dataEmail = {
+                Name : 'email',
+                Value : emailRegistro, //información del formulario.
+            };
+
+            var dataNombreUsuario = {
+                Name : 'name',
+                Value : nombreUsuario, //Información del formulario
+            };
+
+            var dataTelefono = {
+                Name : 'phone_number',
+                Value : telefonoRegistro, //Información del formulario
+            };
+
+            //obteniendo los atributos configurados en el pool.
+            var attributeEmail = new AmazonCognitoIdentity.CognitoUserAttribute(dataEmail);
+            var attributeNombreUsuario = new AmazonCognitoIdentity.CognitoUserAttribute(dataNombreUsuario);
+            var attributeTelefono = new AmazonCognitoIdentity.CognitoUserAttribute(dataTelefono);
+
+            //agregando a la lista de atributos para enviar.
+            attributeList.push(attributeEmail);
+            attributeList.push(attributeNombreUsuario);
+            attributeList.push(attributeTelefono);
+
+            //realizando el proceso de
+            userPool.signUp(emailRegistro, passwordRegistro, attributeList, null, function(err, result){
+                if (err) {
+                    alert(err.message || JSON.stringify(err));
+                    console.log(err.message || JSON.stringify(err));
+                    return;
+                }
+                cognitoUser = result.user; //retorna el usuario creado.
+                console.log('El usuario creado es: ' + cognitoUser.getUsername());
+                //change elements of page
+                document.getElementById("notificacionCreacion").innerHTML = "Verificar su correo electronico para la validar el usuario";
+
+
+            });
+        }
+
+        /**
+         *
+         */
+        function loginCognito() {
+
+            //obteniendo la información del formulario de login.
+            var authenticationData = {
+                Username : $("#usuario").val(),
+                Password : $("#password").val(),
+            };
+
+            //obteniendo la información de autentificación
+            var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(authenticationData);
+
+            //accediendo a la información del pool.
+            var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+
+            var userData = {
+                Username : authenticationData.Username,
+                Pool : userPool,
+            };
+
+            //retornando el usuario
+            var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+
+            //proceso de autentificación
+            cognitoUser.authenticateUser(authenticationDetails, {
+                onSuccess: function (result) { //en ese punto se guarda en el data local
+                    var accessToken = result.getAccessToken().getJwtToken(); //obtengo el Token
+                    console.log("Token: "+accessToken);
+                    $("#notificacionLogin").text("Usuario logeado.....");
+                },
+
+                onFailure: function(err) {
+                    alert(err.message || JSON.stringify(err));
+                },
+            });
+        }
+
+        /**
+         * Salida de la aplicación
+         */
+        function salidaCognito() {
+            userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+            if(userPool.getCurrentUser()!=null){
+                userPool.getCurrentUser().signOut();
+            }else{
+                alert("No existe el usuario logueado");
+            }
+
+        }
+
+        /**
+         *
+         */
+        function cargarUsuarioLogueado() {
+
+            //referencia al pool
+            var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+
+            //los datos del usuarios.
+            var cognitoUser = userPool.getCurrentUser();
+            if (cognitoUser != null) {
+                cognitoUser.getSession(function (err, session) {
+                    if (err) {
+                        alert(err);
+                        return;
+                    }
+                    console.log('La sesión del usuario es valida?: ' + session.isValid());
+
+                    //cargando el token
+                    token = session.getIdToken().getJwtToken();
+
+                    //Obteniendo todos los atributos del usuario
+                    cognitoUser.getUserAttributes(function (err, result) {
+                        if (err) {
+                            console.log(err);
+                            return;
+                        }
+                        console.log(result);
+                        $("#mostrarUsuarioLogueado").text("Bienvenido "+result[2].getValue()+", su correo es: "+result[5].getValue());
+                    });
+
+                });
+            }else {
+                console.log("Usuario no logueado...");
+            }
+        }
+
+        /**
+         * Función para cargar la información de los estudiantes
+         */
+        function cargarListadoEstudiantes(){
+            console.log("Consultando listado de Estudiantes");
+            $.ajax({
+                method: 'POST',
+                contentType: 'application/json',
+                url: _config.api.invokeUrl + '/estudiante/listar',
+                headers: {
+                    Authorization: token
+                },
+                data: JSON.stringify({
+                    filtro : ''
+                }),
+                success: function (resultado) {
+                    console.log(JSON.stringify(resultado));
+                    var re = resultado;
+                    var t = tablaEstudiante;
+                    //
+                    t.rows().remove().draw();
+                    //
+                    for(var i in re.estudiantes){
+                        console.log(""+re.estudiantes[i].matricula+" - "+re.estudiantes[i].nombre)
+                        t.row.add([re.estudiantes[i].matricula, re.estudiantes[i].nombre, re.estudiantes[i].matricula]).draw(false);
+                    }
+                    
+                },
+                error: function ajaxError(jqXHR, textStatus, errorThrown) {
+                    manejoErrores(jqXHR, textStatus, errorThrown);
+                }
+            });
+        }
+
+        /**
+         * 
+         */
+        function crearEditarEstudiante(){
+            //
+            console.log("El WebToken: "+token);
+            //recuperando la información del formulario.
+            var estudiante={
+                matricula : $("#matricula").val(),
+                nombre : $("#nombre").val(),
+            };
+            console.log("El estudiante: "+JSON.stringify(estudiante));
+
+            $.ajax({
+                method: 'POST',
+                contentType: 'application/json',
+                url: _config.api.invokeUrl + '/estudiante',
+                headers: {
+                    Authorization: token
+                },
+                data: JSON.stringify(estudiante),
+                success: function (resultado) {
+                    console.log(JSON.stringify(resultado));
+                    cargarListadoEstudiantes();
+                },
+                error: function ajaxError(jqXHR, textStatus, errorThrown) {
+                    manejoErrores(jqXHR, textStatus, errorThrown);
+                }
+            });
+        }
+
+        /**
+         *
+         */
+        function eliminarEstudiante(matricula){
+           var aceptar = confirm("Está seguro en eliminar el registro?");
+           if(!aceptar){
+               return false;
+           }
+
+           //
+            $.ajax({
+                method: 'DELETE',
+                contentType: 'application/json',
+                url: _config.api.invokeUrl + '/estudiante',
+                headers: {
+                    Authorization: token
+                },
+                data: JSON.stringify({
+                    matricula : matricula
+                }),
+                success: function (resultado) {
+                    console.log(JSON.stringify(resultado));
+                    cargarListadoEstudiantes();
+                },
+                error: function ajaxError(jqXHR, textStatus, errorThrown) {
+                    manejoErrores(jqXHR, textStatus, errorThrown);
+                }
+            });
+           
+        }
+
+        /**
+         * 
+         */
+        function manejoErrores(jqXHR, textStatus, errorThrown){
+            console.error('Error procesando la consulta: ', textStatus, ', Detalle: ', errorThrown);
+            console.error('Respuesta: ', jqXHR.responseText);
+            alert('Ocurrio un error en la consulta:\n' + jqXHR.responseText);
+        }
+
+        /**
+         * Bloque para leer el usuario registrado y leer los parametros necesarios.
+         */
+        $(document).ready(function () {
+            //cargando la información
+            cargarUsuarioLogueado();
+
+            //
+            tablaEstudiante =$('#tablaEstudiantes').DataTable({
+                "columnDefs": [
+                    {
+                        "targets": 2,
+                        "render": function ( data, type, row ) {
+                            var enlace = $('<a>',{
+                                text: 'Eliminar',
+                                href: "javascript:eliminarEstudiante('" + data + "')",
+                                class: 'fila-eliminar'
+                            }).wrapAll('<div>').parent().html();
+                            //console.log("El enlace: "+enlace);
+                            return enlace;
+                        }
+
+                    }
+                ]
+            } );
+
+            //
+            cargarListadoEstudiantes();
+
+            //
+           $("#agregarEstudiante").click(function () {
+
+              crearEditarEstudiante();
+           });
+        });
+
+        new Vue({
+            el: '#app',
+            data: {
+                message: 'Hola Mundo en Vuejs'
+            }
+        });
+
+
+    </script>
+    <script src="js/scrolling-nav.js"></script>
+</body>
+</html>
