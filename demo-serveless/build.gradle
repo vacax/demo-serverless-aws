@@ -1,13 +1,13 @@
 plugins {
-    id 'com.github.johnrengelman.shadow' version '4.0.2'
     id 'java'
     id 'application'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
 group 'edu.pucmm.ia'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 11
 mainClassName = "edu.pucmm.ia.ds.Main"
 
 repositories {
@@ -21,11 +21,13 @@ dependencies {
     compile group: 'com.amazonaws', name: 'aws-lambda-java-core', version: '1.2.0'
     compile group: 'com.amazonaws', name: 'aws-lambda-java-events', version: '1.2.0'
     compile group: 'com.amazonaws', name: 'aws-java-sdk-dynamodb'
+    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.6'
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
 shadowJar {
-    baseName = 'demo-serveless'
-    classifier = null
-    version = '0.0.1'
+    archivesBaseName = 'demo-serveless'
+    archiveClassifier = null
+    archiveVersion = '0.0.1'
 }

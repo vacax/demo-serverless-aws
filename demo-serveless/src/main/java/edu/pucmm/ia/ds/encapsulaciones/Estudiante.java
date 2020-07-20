@@ -8,9 +8,13 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 public class Estudiante {
 
     @DynamoDBHashKey(attributeName="matricula")
-    int matricula;
+    private int matricula;
     @DynamoDBAttribute(attributeName = "nombre")
-    String nombre;
+    private String nombre;
+    @DynamoDBAttribute(attributeName = "correo")
+    private String correo;
+    @DynamoDBAttribute(attributeName = "carrera")
+    private String carrera;
 
     public Estudiante(){
         
@@ -19,6 +23,13 @@ public class Estudiante {
     public Estudiante(int matricula, String nombre) {
         this.matricula = matricula;
         this.nombre = nombre;
+    }
+
+    public Estudiante(int matricula, String nombre, String correo, String carrera) {
+        this.matricula = matricula;
+        this.nombre = nombre;
+        this.correo = correo;
+        this.carrera = carrera;
     }
 
     public int getMatricula() {
@@ -37,11 +48,29 @@ public class Estudiante {
         this.nombre = nombre;
     }
 
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getCarrera() {
+        return carrera;
+    }
+
+    public void setCarrera(String carrera) {
+        this.carrera = carrera;
+    }
+
     @Override
     public String toString() {
         return "Estudiante{" +
                 "matricula=" + matricula +
                 ", nombre='" + nombre + '\'' +
+                ", correo='" + correo + '\'' +
+                ", carrera='" + carrera + '\'' +
                 '}';
     }
 }

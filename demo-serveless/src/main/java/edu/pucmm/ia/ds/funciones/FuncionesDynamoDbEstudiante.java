@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Clase para encapsular la funcionalidad CRUD en la base de datos DynamoDB
+ */
 public class FuncionesDynamoDbEstudiante {
 
     /**
@@ -70,11 +73,19 @@ public class FuncionesDynamoDbEstudiante {
                 //
                 AttributeValue matriculaAtributo = mapEstudiantes.get("matricula");
                 AttributeValue nombreAtributo = mapEstudiantes.get("nombre");
+                AttributeValue correoAtributo = mapEstudiantes.get("correo");
+                AttributeValue carreraAtributo = mapEstudiantes.get("carrera");
                 //
                 Estudiante tmp = new Estudiante();
                 tmp.setMatricula(Integer.valueOf(matriculaAtributo.getN()));
                 if(nombreAtributo!=null){
                    tmp.setNombre(nombreAtributo.getS());
+                }
+                if(correoAtributo!=null){
+                    tmp.setCorreo(correoAtributo.getS());
+                }
+                if(carreraAtributo!=null){
+                    tmp.setCarrera(carreraAtributo.getS());
                 }
                 //
                 estudiantes.add(tmp);
