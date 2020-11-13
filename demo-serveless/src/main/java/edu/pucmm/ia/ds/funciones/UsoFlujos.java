@@ -21,6 +21,7 @@ public class UsoFlujos {
     public void controlFlujo(InputStream inputStream, OutputStream outputStream, Context context) throws IOException {
         int letter;
         while((letter = inputStream.read()) != -1){
+            System.out.print((char)letter);
             outputStream.write(Character.toUpperCase(letter));
         }
     }
