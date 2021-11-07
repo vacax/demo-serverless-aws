@@ -1,4 +1,4 @@
-package edu.pucmm.ia.ds.funciones;
+package edu.pucmm.ia.ds.services;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
@@ -9,6 +9,7 @@ import com.amazonaws.services.dynamodbv2.model.ScanRequest;
 import com.amazonaws.services.dynamodbv2.model.ScanResult;
 import com.amazonaws.services.lambda.runtime.Context;
 import edu.pucmm.ia.ds.encapsulaciones.Estudiante;
+import edu.pucmm.ia.ds.util.ServerlessHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.Map;
 /**
  * Clase para encapsular la funcionalidad CRUD en la base de datos DynamoDB
  */
-public class FuncionesDynamoDbEstudiante {
+public class EstudianteDynamoDbServices {
 
     /**
      * Función simplificando la salida relacionado
@@ -25,7 +26,7 @@ public class FuncionesDynamoDbEstudiante {
      * @param context
      * @return
      */
-    public EstudianteResponse insertarEtudianteTabla(Estudiante estudiante, Context context){
+    public EstudianteResponse insertarEstudianteTabla(Estudiante estudiante, Context context){
         AmazonDynamoDB ddb = AmazonDynamoDBClientBuilder.defaultClient();
 
         if(estudiante.getMatricula() == 0 || estudiante.getNombre().isEmpty()){
@@ -55,7 +56,7 @@ public class FuncionesDynamoDbEstudiante {
 
         List<Estudiante> estudiantes = new ArrayList<>();
 
-        ScanRequest scanRequest = new ScanRequest().withTableName("estudiantes");
+        ScanRequest scanRequest = new ScanRequest().withTableName(ServerlessHelper.getNombreTabla());
         ScanResult result = null;
 
         do {// La consulta vía ScanRequest solo retorna 1 MB de datos por iteracion,
@@ -106,16 +107,16 @@ public class FuncionesDynamoDbEstudiante {
         AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard().build();
         DynamoDB dynamoDB = new DynamoDB(client);
 
-        Table table = dynamoDB.getTable("estudiantes");
+        Table table = dynamoDB.getTable(ServerlessHelper.getNombreTabla());
 
         DeleteItemOutcome outcome = table.deleteItem("matricula", estudiante.getMatricula());
         return new EstudianteResponse(false, null, estudiante);
     }
 
     /**
-     * 
+     * Representa el objeto que encapsula la información de la consulta
      */
-    static class ListarEstudiantesResponse{
+    public static class ListarEstudiantesResponse{
         boolean error;
         String mensajeError;
         List<Estudiante> estudiantes;
@@ -157,7 +158,7 @@ public class FuncionesDynamoDbEstudiante {
     /**
      *  Encapsulación del objeto de respuesta.
      */
-    static class EstudianteResponse{
+    public static class EstudianteResponse{
         boolean error;
         String mensajeError;
         Estudiante estudiante;
@@ -197,7 +198,7 @@ public class FuncionesDynamoDbEstudiante {
         }
     }
 
-    static class FiltroListaEstudiante{
+    public static class FiltroListaEstudiante{
         String filtro;
 
         public String getFiltro() {

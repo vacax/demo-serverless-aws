@@ -7,9 +7,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Permite utilizar el control de flujo, para no trabajar con JSON a la salida.
+ * Permite utilizar el control de flujo (Stream), para no trabajar con JSON a la salida.
  */
-public class UsoFlujos {
+public class UsoStream {
 
     /**
      * La entrada en input debe ser una trama valida JSON. El output no tiene esa limitación.

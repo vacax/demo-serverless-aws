@@ -3,22 +3,26 @@ package edu.pucmm.ia.ds.funciones;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 
-public class HolaMundoBarcamp2018 {
+public class FuncionHolaMundo {
 
     /**
-     * 
+     * La entrada será pasada de JSON y convertida al objeto indicado.
      * @param entrada
      * @param context
      * @return
+     * El retorno será la conversión a JSON del objeto que estamos trabajando.
      */
-    public HolaMundoBarcampResponse holaMundo(HolaMundoRequest entrada, Context context){
+    public HolaMundoResponse holaMundo(HolaMundoRequest entrada, Context context){
         LambdaLogger logger = context.getLogger();
         logger.log("Hola Mundo prueba de Serverless....");
         logger.log("El ID del proceso: "+context.getAwsRequestId());
 
-        return new HolaMundoBarcampResponse("Hola Mundo "+entrada.mensaje+" :-D");
+        return new HolaMundoResponse("Hola Mundo "+entrada.mensaje+" :-D");
     }
 
+    /**
+     * Clase para la conversión de la entrada
+     */
     static class HolaMundoRequest {
 
         String mensaje;
@@ -32,14 +36,17 @@ public class HolaMundoBarcamp2018 {
         }
     }
 
-    static class HolaMundoBarcampResponse {
+    /**
+     * Clase para la encapsulación de la salida
+     */
+    static class HolaMundoResponse {
 
         String mensaje;
 
-        public HolaMundoBarcampResponse() {
+        public HolaMundoResponse() {
         }
 
-        public HolaMundoBarcampResponse(String mensaje) {
+        public HolaMundoResponse(String mensaje) {
             this.mensaje = mensaje;
         }
 

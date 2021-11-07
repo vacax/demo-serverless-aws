@@ -5,19 +5,22 @@ import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 import edu.pucmm.ia.ds.encapsulaciones.Estudiante;
+import edu.pucmm.ia.ds.services.EstudianteDynamoDbServices;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import java.io.*;
 
 /**
  * Funcion para trabajar el CRUD de la entidad Estudiantes.
+ * Es importante crear los permisos necesarios para conectar DynamoDB con el servicio de los Serverless.
+ * Se cambia el rol del serverless, pueden utilizar desde la plantilla "Permisos de microservicios sencillos" o
+ * "Simple microservice permissions"
  */
 public class FuncionCRUDEstudiante  implements RequestStreamHandler {
 
     //Instanciando objeto el manejo de la base de datos.
-    private FuncionesDynamoDbEstudiante funcionesDynamoDbEstudiante = new FuncionesDynamoDbEstudiante();
+    private EstudianteDynamoDbServices funcionesDynamoDbEstudiante = new EstudianteDynamoDbServices();
     private Gson gson = new Gson();
 
     /**
@@ -53,13 +56,13 @@ public class FuncionCRUDEstudiante  implements RequestStreamHandler {
             //Realizando la operacion
             switch (metodoHttp){
                 case "GET":
-                    FuncionesDynamoDbEstudiante.ListarEstudiantesResponse listarEstudiantesResponse = funcionesDynamoDbEstudiante.listarEstudiantes(null, context);
+                    EstudianteDynamoDbServices.ListarEstudiantesResponse listarEstudiantesResponse = funcionesDynamoDbEstudiante.listarEstudiantes(null, context);
                     salida = gson.toJson(listarEstudiantesResponse);
                     break;
                 case "POST":
                 case "PUT":
                     estudiante = getEstudianteBodyJson(evento);
-                    funcionesDynamoDbEstudiante.insertarEtudianteTabla(estudiante, context);
+                    funcionesDynamoDbEstudiante.insertarEstudianteTabla(estudiante, context);
                     salida = gson.toJson(estudiante);
                     break;
                 case "DELETE":
@@ -81,6 +84,7 @@ public class FuncionCRUDEstudiante  implements RequestStreamHandler {
 
             JSONObject headerJson = new JSONObject();
             headerJson.put("mi-header", "Mi propio header");
+            headerJson.put("Content-Type", "application/json");
 
             responseJson.put("statusCode", 200);
             responseJson.put("headers", headerJson);

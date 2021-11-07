@@ -4,6 +4,9 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
+/**
+ * Clase que utiliza en enlace para DynamoDB.
+ */
 @DynamoDBTable(tableName="estudiantes")
 public class Estudiante {
 

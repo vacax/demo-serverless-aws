@@ -5,8 +5,11 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPResponse;
+import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -41,7 +44,8 @@ public class FuncionApiGateWayEncapsulacion {
 
     /**
      * Las clases utilizadas corresponde a la implementación en la librería del SDK.
-     * Nos ayudan a trabajar de una manera más rapida. Trabaja para la versión Api gateway Rest
+     * Nos ayudan a trabajar de una manera más rápida. Trabaja para la versión Api gateway Rest.
+     * Para utilizar en AWS cargar: edu.pucmm.ia.ds.funciones.FuncionApiGateWayEncapsulacion::manejadorApiRest
      * @param request
      * @param context
      * @return
@@ -55,7 +59,12 @@ public class FuncionApiGateWayEncapsulacion {
         //Salida.
         APIGatewayProxyResponseEvent reponse = new APIGatewayProxyResponseEvent();
         reponse.setStatusCode(200);
-        reponse.setBody("Hola Mundo Serverless Utilizando APIGateway tipo REST vía  :-D");
+        //Habilitando el CORS
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Access-Control-Allow-Origin", "*");
+        reponse.setHeaders(headers);
+        //
+        reponse.setBody("Hola Mundo Serverless Utilizando APIGateway tipo REST vía  :-D -> Información Recibido: "+request.toString());
         return reponse;
     }
 
