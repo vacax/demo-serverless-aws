@@ -51,7 +51,8 @@ public class FuncionCRUDEstudiante  implements RequestStreamHandler {
             if(evento.get("requestContext")==null){
                 throw new IllegalArgumentException("No respesta el API de entrada");
             }
-            String metodoHttp = ((JSONObject)((JSONObject)evento.get("requestContext")).get("http")).get("method").toString();
+            //String metodoHttp = ((JSONObject)((JSONObject)evento.get("httpMethod")).get("http")).get("method").toString();
+            String metodoHttp = evento.get("httpMethod").toString();
 
             //Realizando la operacion
             switch (metodoHttp){
