@@ -31,7 +31,8 @@ public class FuncionApiGateWayEncapsulacion {
     public APIGatewayV2HTTPResponse manejadorApiHttp(APIGatewayV2HTTPEvent request, Context context)
             throws IOException {
         //Recuperando la entrada, ver en CloudWatch la salida:
-        context.getLogger().log("Metodo de acceso: "+request.getRequestContext().getHttp().getMethod());
+        context.getLogger().log("Petición: "+new Gson().toJson(request));
+        //context.getLogger().log("Metodo de acceso: "+request.getRequestContext().getHttp().getMethod());
         context.getLogger().log("Parametros enviados: "+request.getRawQueryString());
         context.getLogger().log("Cuerpo enviado: "+request.getBody());
         //Salida.
