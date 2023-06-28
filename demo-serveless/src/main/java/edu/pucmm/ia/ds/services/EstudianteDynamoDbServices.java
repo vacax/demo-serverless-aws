@@ -5,6 +5,7 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.document.*;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.PutItemRequest;
 import com.amazonaws.services.dynamodbv2.model.ScanRequest;
 import com.amazonaws.services.dynamodbv2.model.ScanResult;
 import com.amazonaws.services.lambda.runtime.Context;
@@ -12,6 +13,7 @@ import edu.pucmm.ia.ds.encapsulaciones.Estudiante;
 import edu.pucmm.ia.ds.util.ServerlessHelper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,16 +29,24 @@ public class EstudianteDynamoDbServices {
      * @return
      */
     public EstudianteResponse insertarEstudianteTabla(Estudiante estudiante, Context context){
-        AmazonDynamoDB ddb = AmazonDynamoDBClientBuilder.defaultClient();
+
+        AmazonDynamoDB client = AmazonDynamoDBClientBuilder.defaultClient();
+        DynamoDB dynamoDB = new DynamoDB(client);
 
         if(estudiante.getMatricula() == 0 || estudiante.getNombre().isEmpty()){
            throw new RuntimeException("Datos enviados no son validos");
         }
 
         try {
-            DynamoDBMapper mapper = new DynamoDBMapper(ddb);
 
-            mapper.save(estudiante);
+            Table table = dynamoDB.getTable(ServerlessHelper.getNombreTabla());
+            Item item = new Item().withPrimaryKey("matricula", estudiante.getMatricula())
+                    .withString("nombre", estudiante.getNombre())
+                    .withString("correo", estudiante.getCorreo())
+                    .withString("carrera", estudiante.getCarrera());
+
+            PutItemOutcome putItemOutcome = table.putItem(item);
+
         }catch (Exception e){
            return new EstudianteResponse(true, e.getMessage(), null);
         }

@@ -16,6 +16,12 @@ import java.io.*;
  * Es importante crear los permisos necesarios para conectar DynamoDB con el servicio de los Serverless.
  * Se cambia el rol del serverless, pueden utilizar desde la plantilla "Permisos de microservicios sencillos" o
  * "Simple microservice permissions"
+ *
+ * Para el uso del ejemplo de debe crear una variable de ambiente llamada "TABLA_ESTUDIANTE" donde se indica la tabla
+ * que será utilizada en DynamoDb.
+ *
+ * En caso que estemos utilizando el laboratorio de AWS Academy es necesario incluir el permiso AWSLambdaBasicExecutionRole y de escritura
+ * AmazonDynamoDBFullAccess .
  */
 public class FuncionCRUDEstudiante  implements RequestStreamHandler {
 
@@ -49,7 +55,7 @@ public class FuncionCRUDEstudiante  implements RequestStreamHandler {
 
             //Recuperando el metodo de acceso de la llamada del API.
             if(evento.get("requestContext")==null){
-                throw new IllegalArgumentException("No respesta el API de entrada");
+                throw new IllegalArgumentException("No respeta el API de entrada");
             }
             //String metodoHttp = ((JSONObject)((JSONObject)evento.get("httpMethod")).get("http")).get("method").toString();
             String metodoHttp = evento.get("httpMethod").toString();
@@ -103,7 +109,7 @@ public class FuncionCRUDEstudiante  implements RequestStreamHandler {
     }
 
     /**
-     *
+     * Encapsula el JSON enviado al objeto Estudiante.
      * @param json
      * @return
      */

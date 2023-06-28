@@ -2,6 +2,9 @@ package edu.pucmm.ia.ds.util;
 
 public class ServerlessHelper {
 
+    /**
+     * Enum de variables.
+     */
     public enum VariableAmbiente{
 
         TABLA("TABLA_ESTUDIANTE");
@@ -17,6 +20,10 @@ public class ServerlessHelper {
         }
     }
 
+    /**
+     * Leyendo la tabla desde la variable de ambiente.
+     * @return
+     */
     public static String getNombreTabla(){
         return System.getenv(VariableAmbiente.TABLA.getValor());
     }

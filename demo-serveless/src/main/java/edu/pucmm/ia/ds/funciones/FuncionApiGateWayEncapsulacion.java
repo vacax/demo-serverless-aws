@@ -15,6 +15,9 @@ import java.util.stream.Collectors;
 /**
  * Utilizando la Interfaz propia de la librería para aws-lambda-java-events, ver en
  * https://github.com/aws/aws-lambda-java-libs
+ *
+ * Cuando elegir API Gateway Rest o HTTP:
+ * https://docs.aws.amazon.com/es_es/apigateway/latest/developerguide/http-api-vs-rest.html
  */
 public class FuncionApiGateWayEncapsulacion {
 
