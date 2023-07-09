@@ -42,7 +42,6 @@ public class EstudianteDynamoDbServices {
             Table table = dynamoDB.getTable(ServerlessHelper.getNombreTabla());
             Item item = new Item().withPrimaryKey("matricula", estudiante.getMatricula())
                     .withString("nombre", estudiante.getNombre())
-                    .withString("correo", estudiante.getCorreo())
                     .withString("carrera", estudiante.getCarrera());
 
             PutItemOutcome putItemOutcome = table.putItem(item);
@@ -84,16 +83,12 @@ public class EstudianteDynamoDbServices {
                 //
                 AttributeValue matriculaAtributo = mapEstudiantes.get("matricula");
                 AttributeValue nombreAtributo = mapEstudiantes.get("nombre");
-                AttributeValue correoAtributo = mapEstudiantes.get("correo");
                 AttributeValue carreraAtributo = mapEstudiantes.get("carrera");
                 //
                 Estudiante tmp = new Estudiante();
                 tmp.setMatricula(Integer.valueOf(matriculaAtributo.getN()));
                 if(nombreAtributo!=null){
                    tmp.setNombre(nombreAtributo.getS());
-                }
-                if(correoAtributo!=null){
-                    tmp.setCorreo(correoAtributo.getS());
                 }
                 if(carreraAtributo!=null){
                     tmp.setCarrera(carreraAtributo.getS());

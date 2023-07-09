@@ -1,22 +1,14 @@
 package edu.pucmm.ia.ds.encapsulaciones;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
 /**
  * Clase que utiliza en enlace para DynamoDB.
  */
-@DynamoDBTable(tableName="estudiantes")
 public class Estudiante {
 
-    @DynamoDBHashKey(attributeName="matricula")
+
     private int matricula;
-    @DynamoDBAttribute(attributeName = "nombre")
     private String nombre;
-    @DynamoDBAttribute(attributeName = "correo")
-    private String correo;
-    @DynamoDBAttribute(attributeName = "carrera")
     private String carrera;
 
     public Estudiante(){
@@ -28,10 +20,9 @@ public class Estudiante {
         this.nombre = nombre;
     }
 
-    public Estudiante(int matricula, String nombre, String correo, String carrera) {
+    public Estudiante(int matricula, String nombre, String carrera) {
         this.matricula = matricula;
         this.nombre = nombre;
-        this.correo = correo;
         this.carrera = carrera;
     }
 
@@ -51,14 +42,6 @@ public class Estudiante {
         this.nombre = nombre;
     }
 
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
-
     public String getCarrera() {
         return carrera;
     }
@@ -72,7 +55,6 @@ public class Estudiante {
         return "Estudiante{" +
                 "matricula=" + matricula +
                 ", nombre='" + nombre + '\'' +
-                ", correo='" + correo + '\'' +
                 ", carrera='" + carrera + '\'' +
                 '}';
     }
